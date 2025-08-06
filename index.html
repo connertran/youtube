@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to My Homepage</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section id="home" class="hero">
+        <h1>Welcome to My Website</h1>
+        <p>
+          Hi, I'm a web developer passionate about creating amazing experiences.
+        </p>
+        <!-- From Uiverse.io by 0xnihilism -->
+        <div class="input-container">
+          <input
+            class="input"
+            name="text"
+            type="text"
+            placeholder="Search the internet..."
+          />
+        </div>
+
+        <button class="cta-button">Learn More</button>
+      </section>
+
+      <section id="about">
+        <h2>About Me</h2>
+        <p>
+          I specialize in creating beautiful and functional websites using
+          modern web technologies.
+        </p>
+      </section>
+
+      <section id="projects">
+        <h2>My Projects</h2>
+        <div class="project-grid">
+          <div class="project-card">Project 1</div>
+          <div class="project-card">Project 2</div>
+          <div class="project-card">Project 3</div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <h2>Contact Me</h2>
+        <form id="contact-form">
+          <input type="text" placeholder="Your Name" required />
+          <input type="email" placeholder="Your Email" required />
+          <textarea placeholder="Your Message" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 My Homepage. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
