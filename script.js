@@ -1,30 +1,29 @@
 /**
- * @param {string} s
+ * @param {number[]} height
  * @return {number}
  */
-var romanToInt = function (s) {
-  const romanObj = {
-    I: 1,
-    V: 5,
-    X: 10,
-    L: 50,
-    C: 100,
-    D: 500,
-    M: 1000,
-  };
-  let result = 0;
-  let lastNum = romanObj[s[s.length - 1]];
-  for (let i = s.length - 1; i >= 0; i--) {
-    let currentNum = romanObj[s[i]];
-    if (currentNum >= lastNum) {
-      result += currentNum;
-    } else {
-      result -= currentNum;
-    }
+var maxArea = function (height) {
+  let start = 0;
+  let end = height.length - 1;
+  let best = 0;
 
-    lastNum = romanObj[s[i]];
+  while (start < end) {
+    let firstColumn = height[start];
+    let lastColumn = height[end];
+    let current = 0;
+
+    if (firstColumn >= lastColumn) {
+      current = lastColumn * (end - start);
+      best < current ? (best = current) : (best = best);
+      end--;
+    } else if (firstColumn < lastColumn) {
+      current = firstColumn * (end - start);
+      best < current ? (best = current) : (best = best);
+      start++;
+    }
   }
-  return result;
+
+  return best;
 };
 
-console.log(romanToInt("MCMXCIV"));
+console.log(maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]));
