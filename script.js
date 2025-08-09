@@ -1,29 +1,22 @@
 /**
- * @param {number[]} height
+ * @param {string} s
  * @return {number}
  */
-var maxArea = function (height) {
-  let start = 0;
-  let end = height.length - 1;
-  let best = 0;
+var lengthOfLastWord = function (s) {
+  let length = s.length;
+  let result = 0;
+  let startCounting = false;
 
-  while (start < end) {
-    let firstColumn = height[start];
-    let lastColumn = height[end];
-    let current = 0;
-
-    if (firstColumn >= lastColumn) {
-      current = lastColumn * (end - start);
-      best < current ? (best = current) : (best = best);
-      end--;
-    } else if (firstColumn < lastColumn) {
-      current = firstColumn * (end - start);
-      best < current ? (best = current) : (best = best);
-      start++;
+  for (let i = s.length - 1; i >= 0; i--) {
+    if (s[i] !== " ") {
+      startCounting = true;
+      result++;
+    } else if (s[i] === " " && startCounting) {
+      break;
     }
+    length--;
   }
-
-  return best;
+  return result;
 };
 
-console.log(maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]));
+console.log(lengthOfLastWord("a"));
