@@ -1,58 +1,30 @@
-var spiralOrder = function (matrix) {
-  let right = true;
-  let down = false;
-  let left = false;
-  let up = false;
-  const result = [];
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
 
-  while (matrix.length > 0) {
-    if (right) {
-      for (let i = 0; i < matrix[0].length; i++) {
-        result.push(matrix[0][i]);
-      }
-      matrix.shift();
-      right = false;
-      down = true;
-    } else if (down) {
-      for (let i = 0; i < matrix.length; i++) {
-        if (matrix[i].length > 0) {
-          result.push(matrix[i][matrix[i].length - 1]);
-          matrix[i].pop();
-        }
-      }
-      down = false;
-      left = true;
-    } else if (left) {
-      const lastRow = matrix[matrix.length - 1];
-
-      const n = lastRow.length;
-      for (let i = 0; i < n; i++) {
-        result.push(lastRow.pop());
-      }
-
-      matrix.pop();
-      left = false;
-      up = true;
-    } else if (up) {
-      for (let i = matrix.length - 1; i >= 0; i--) {
-        if (matrix[i].length > 0) {
-          result.push(matrix[i].shift());
-        }
-      }
-
-      matrix = matrix.filter((row) => row.length > 0);
-      up = false;
-      right = true;
-    }
-  }
-
-  return result;
+function TreeNode(val, left, right) {
+  this.val = val === undefined ? 0 : val;
+  this.left = left === undefined ? null : left;
+  this.right = right === undefined ? null : right;
+}
+var maxDepth = function (root) {
+  if (root === null) return 0;
+  return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
 };
 
-console.log(
-  spiralOrder([
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
-  ])
+const root = new TreeNode(
+  3,
+  new TreeNode(9),
+  new TreeNode(20, new TreeNode(15), new TreeNode(7))
 );
+
+console.log(maxDepth(root));
