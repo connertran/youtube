@@ -1,30 +1,58 @@
-/**
- * @param {number[]} nums
- * @return {number[]}
- */
-var productExceptSelf = function (nums) {
-  const leftRight = {};
-  const rightLeft = {};
-  let leftValue = 1;
-  let rightValue = 1;
-  for (let i = 0; i < nums.length; i++) {
-    leftValue = leftValue * nums[i];
-    leftRight[i] = leftValue;
+var spiralOrder = function (matrix) {
+  let right = true;
+  let down = false;
+  let left = false;
+  let up = false;
+  const result = [];
 
-    rightValue = rightValue * nums[nums.length - 1 - i];
-    rightLeft[nums.length - 1 - i] = rightValue;
-  }
-  console.log(leftRight);
-  console.log(rightLeft);
-  for (let i = 0; i < nums.length; i++) {
-    let leftProduct = 1;
-    let rightProduct = 1;
-    if (leftRight[i - 1] !== undefined) leftProduct = leftRight[i - 1];
-    if (rightLeft[i + 1] !== undefined) rightProduct = rightLeft[i + 1];
-    nums[i] = leftProduct * rightProduct;
+  while (matrix.length > 0) {
+    if (right) {
+      for (let i = 0; i < matrix[0].length; i++) {
+        result.push(matrix[0][i]);
+      }
+      matrix.shift();
+      right = false;
+      down = true;
+    } else if (down) {
+      for (let i = 0; i < matrix.length; i++) {
+        if (matrix[i].length > 0) {
+          result.push(matrix[i][matrix[i].length - 1]);
+          matrix[i].pop();
+        }
+      }
+      down = false;
+      left = true;
+    } else if (left) {
+      const lastRow = matrix[matrix.length - 1];
+
+      const n = lastRow.length;
+      for (let i = 0; i < n; i++) {
+        result.push(lastRow.pop());
+      }
+
+      matrix.pop();
+      left = false;
+      up = true;
+    } else if (up) {
+      for (let i = matrix.length - 1; i >= 0; i--) {
+        if (matrix[i].length > 0) {
+          result.push(matrix[i].shift());
+        }
+      }
+
+      matrix = matrix.filter((row) => row.length > 0);
+      up = false;
+      right = true;
+    }
   }
 
-  return nums;
+  return result;
 };
 
-console.log(productExceptSelf([1, 2, 3, 4]));
+console.log(
+  spiralOrder([
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+  ])
+);
