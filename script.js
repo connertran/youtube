@@ -1,26 +1,26 @@
 /**
- * @param {number[]} nums
+ * @param {number} x
+ * @param {number} n
  * @return {number}
  */
-var removeDuplicates = function (nums) {
-  let lastNum;
-  let k = 0;
-  let index = 0;
-  while (index < nums.length) {
-    const currentNum = nums[index];
-    if (lastNum === currentNum) {
-      console.log("If: " + lastNum, currentNum);
-      nums.splice(index, 1);
-      console.log("nums: " + nums);
-    } else {
-      console.log("Else: " + lastNum, currentNum);
-      k++;
-      index++;
-      lastNum = currentNum;
-    }
+
+function powFunc(x, n) {
+  if (n === 0) return 1;
+  const half = powFunc(x, Math.floor(n / 2));
+  const sqr = half * half;
+  return n % 2 === 0 ? sqr : sqr * x;
+}
+
+var myPow = function (x, n) {
+  if (n > 0) {
+    return powFunc(x, n);
+  } else if (n === 0) {
+    return 1;
+  } else {
+    const positiveN = -n;
+    const denominator = powFunc(x, positiveN);
+    return 1 / denominator;
   }
-  return k, nums;
 };
 
-const nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4];
-console.log(removeDuplicates(nums));
+console.log(myPow(2.0, -200000000));
