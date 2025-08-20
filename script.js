@@ -1,26 +1,15 @@
 /**
- * @param {number} x
- * @param {number} n
- * @return {number}
+ * @param {string} s
+ * @return {string}
  */
-
-function powFunc(x, n) {
-  if (n === 0) return 1;
-  const half = powFunc(x, Math.floor(n / 2));
-  const sqr = half * half;
-  return n % 2 === 0 ? sqr : sqr * x;
-}
-
-var myPow = function (x, n) {
-  if (n > 0) {
-    return powFunc(x, n);
-  } else if (n === 0) {
-    return 1;
-  } else {
-    const positiveN = -n;
-    const denominator = powFunc(x, positiveN);
-    return 1 / denominator;
-  }
+var reverseWords = function (s) {
+  const strimStr = s.trim();
+  const strArr = strimStr.split(" ");
+  const strArrWithoutSpaces = strArr.filter((item) => {
+    return item !== "";
+  });
+  strArrWithoutSpaces.reverse();
+  return strArrWithoutSpaces.join(" ");
 };
 
-console.log(myPow(2.0, -200000000));
+console.log(reverseWords("a good   example"));
