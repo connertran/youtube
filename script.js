@@ -1,40 +1,24 @@
 /**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
+ * @param {number[]} nums
+ * @return {number}
  */
-
-function treeToArray(root) {
-  if (root === null) return [];
-
-  const result = [];
-
-  function dfs(node) {
-    if (node === null) {
-      result.push(null);
-      return;
-    }
-    result.push(node.val);
-    dfs(node.left);
-    dfs(node.right);
+var longestConsecutive = function (nums) {
+  if (nums.length === 0) {
+    return 0;
   }
-
-  dfs(root);
-  return result;
-}
-/**
- * @param {TreeNode} p
- * @param {TreeNode} q
- * @return {boolean}
- */
-var isSameTree = function (p, q) {
-  if (p === null && q === null) return true;
-
-  const pArray = treeToArray(p);
-  const qArray = treeToArray(q);
-
-  return JSON.stringify(pArray) === JSON.stringify(qArray) ? true : false;
+  const existenceSet = new Set(nums);
+  let best = 1;
+  for (let num of existenceSet) {
+    if (!existenceSet.has(num - 1)) {
+      let count = 1;
+      while (existenceSet.has(num + 1)) {
+        count++;
+        num++;
+      }
+      best < count ? (best = count) : (count = count);
+    }
+  }
+  return best;
 };
+
+console.log(longestConsecutive([1, 0, 1, 2]));
