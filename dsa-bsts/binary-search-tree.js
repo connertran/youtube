@@ -77,32 +77,106 @@ class BinarySearchTree {
   /** find(val): search the tree for a node with value val.
    * return the node, if found; else undefined. Uses iteration. */
 
-  find(val) {}
+  find(val) {
+    if (val === null) return undefined;
+    let currentNode = this.root;
+    while (currentNode) {
+      if (currentNode.val === val) {
+        return currentNode;
+      } else if (currentNode.val > val) {
+        currentNode = currentNode.left;
+      } else if (currentNode.val < val) {
+        currentNode = currentNode.right;
+      }
+    }
+    return undefined;
+  }
 
   /** findRecursively(val): search the tree for a node with value val.
    * return the node, if found; else undefined. Uses recursion. */
 
-  findRecursively(val) {}
+  findRecursively(val) {
+    if (val === null) return undefined;
+    let currentNode = this.root;
+    function recursion(currentNode) {
+      if (currentNode === null) return undefined;
+      if (currentNode.val === val) {
+        return currentNode;
+      } else if (currentNode.val > val) {
+        return recursion(currentNode.left);
+      } else if (currentNode.val < val) {
+        return recursion(currentNode.right);
+      }
+    }
+    return recursion(currentNode);
+  }
 
   /** dfsPreOrder(): Traverse the array using pre-order DFS.
    * Return an array of visited nodes. */
 
-  dfsPreOrder() {}
+  dfsPreOrder() {
+    const result = [];
+    const currentNode = this.root;
+    function recursion(currentNode) {
+      if (currentNode === null) return;
+      result.push(currentNode.val);
+      recursion(currentNode.left);
+      recursion(currentNode.right);
+    }
+    recursion(currentNode);
+    return result;
+  }
 
   /** dfsInOrder(): Traverse the array using in-order DFS.
    * Return an array of visited nodes. */
 
-  dfsInOrder() {}
+  dfsInOrder() {
+    const result = [];
+    const currentNode = this.root;
+    function recursion(currentNode) {
+      if (currentNode === null) return;
+
+      recursion(currentNode.left);
+      result.push(currentNode.val);
+      recursion(currentNode.right);
+    }
+    recursion(currentNode);
+    return result;
+  }
 
   /** dfsPostOrder(): Traverse the array using post-order DFS.
    * Return an array of visited nodes. */
 
-  dfsPostOrder() {}
+  dfsPostOrder() {
+    const result = [];
+    const currentNode = this.root;
+    function recursion(currentNode) {
+      if (currentNode === null) return;
+      recursion(currentNode.left);
+      recursion(currentNode.right);
+      result.push(currentNode.val);
+    }
+    recursion(currentNode);
+    return result;
+  }
 
   /** bfs(): Traverse the array using BFS.
    * Return an array of visited nodes. */
 
-  bfs() {}
+  bfs() {
+    const result = [];
+    const root = this.root;
+    if (!root) return result;
+
+    const q = [root];
+    while (q.length) {
+      const node = q.shift();
+      result.push(node.val);
+      if (node.left) q.push(node.left);
+      if (node.right) q.push(node.right);
+    }
+    return result;
+  }
 
   /** Further Study!
    * remove(val): Removes a node in the BST with the value val.
@@ -119,7 +193,23 @@ class BinarySearchTree {
    * findSecondHighest(): Find the second highest value in the BST, if it exists.
    * Otherwise return undefined. */
 
-  findSecondHighest() {}
+  findSecondHighest() {
+    let currentNode = this.root;
+    let previousValue = null;
+    if (currentNode === null) return undefined;
+    while (currentNode) {
+      if (currentNode.left !== null) {
+        previousValue = currentNode;
+        currentNode = currentNode.left;
+      } else {
+        if (currentNode.left !== null) {
+          return currentNode.left.val;
+        } else {
+          return previousValue.val;
+        }
+      }
+    }
+  }
 }
 
 module.exports = BinarySearchTree;
