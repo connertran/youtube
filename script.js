@@ -1,44 +1,26 @@
 /**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
  *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
  * }
  */
 /**
- * @param {ListNode} head
+ * @param {TreeNode} root
  * @param {number} k
- * @return {ListNode}
+ * @return {number}
  */
-var rotateRight = function (head, k) {
-  if (k === 0) {
-    return head;
-  }
-  if (head === null) {
-    return null;
-  }
-  if (head.next === null) {
-    return head;
-  }
-  const linkedListStack = [];
-  let currentNode = head;
-  while (currentNode) {
-    linkedListStack.push(currentNode);
-    if (currentNode.next !== null) {
-      currentNode = currentNode.next;
-    } else {
-      break;
+var kthSmallest = function (root, k) {
+  let arr = [];
+  function recursion(node) {
+    if (!node) {
+      return;
     }
+    recursion(node.left);
+    arr.push(node.val);
+    recursion(node.right);
   }
-  let result = head;
-  let rotate = k % linkedListStack.length;
-  while (rotate > 0) {
-    const lastNode = linkedListStack.pop();
-    linkedListStack[linkedListStack.length - 1].next = null;
-    lastNode.next = result;
-    result = lastNode;
-    linkedListStack.unshift(lastNode);
-    rotate--;
-  }
-  return result;
+  recursion(root);
+  return arr[k - 1];
 };
