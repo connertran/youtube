@@ -8,19 +8,34 @@
  */
 /**
  * @param {TreeNode} root
- * @param {number} k
- * @return {number}
+ * @return {boolean}
  */
-var kthSmallest = function (root, k) {
-  let arr = [];
+var isValidBST = function (root) {
+  if (root === null) {
+    return false;
+  }
+  if (root.left === null && root.right === null) {
+    return true;
+  }
+  const nodeArr = [];
   function recursion(node) {
-    if (!node) {
+    if (node === null) {
       return;
     }
+
     recursion(node.left);
-    arr.push(node.val);
+    nodeArr.push(node.val);
     recursion(node.right);
   }
   recursion(root);
-  return arr[k - 1];
+
+  let prev = -Infinity;
+  for (let i = 0; i < nodeArr.length; i++) {
+    const current = nodeArr[i];
+    if (prev >= current) {
+      return false;
+    }
+    prev = current;
+  }
+  return true;
 };
