@@ -1,80 +1,39 @@
-class TreeNode {
-  constructor(value, left = null, right = null) {
-    this.value = value;
-    this.left = left;
-    this.right = right;
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+
+function linkedListObj(node) {
+  if (node === null) return {};
+  const result = {};
+  while (node) {
+    result[node.val] = node;
+    node = node.next;
   }
+  return result;
 }
+var sortList = function (head) {
+  if (head === null) return null;
+  const nodesObj = linkedListObj(head);
+  const arrayOfKeys = Object.keys(nodesObj);
+  const arrayOfKeysInt = arrayOfKeys.map((each) => Number(each));
+  const sortedArray = arrayOfKeysInt.sort((a, b) => a - b);
 
-//        1
-//       / \
-//      2   3
-//     / \   \
-//    4   5   6
-const root = new TreeNode(
-  1,
-  new TreeNode(2, new TreeNode(4), new TreeNode(5)),
-  new TreeNode(3, null, new TreeNode(6))
-);
-
-class Tree {
-  constructor(root) {
-    this.root = root;
+  const resultHead = nodesObj[sortedArray[0]];
+  let curr = resultHead;
+  curr.next = null;
+  for (let i = 1; i < arrayOfKeys.length; i++) {
+    const nextNode = nodesObj[sortedArray[i]];
+    curr.next = nextNode;
+    curr = nextNode;
+    curr.next = null;
   }
-  BFS() {
-    if (this.root === null) return [];
-
-    const resultArr = [];
-    const queue = [this.root];
-    while (queue.length > 0) {
-      const nodeFromQueue = queue.shift();
-      resultArr.push(nodeFromQueue.value);
-      if (nodeFromQueue.left) {
-        queue.push(nodeFromQueue.left);
-      }
-      if (nodeFromQueue.right) {
-        queue.push(nodeFromQueue.right);
-      }
-    }
-    return resultArr;
-  }
-
-  DFSrecursive() {
-    if (this.root === null) return [];
-    const resultArr = [];
-
-    function recursion(node) {
-      if (node === null) {
-        return;
-      }
-      resultArr.push(node.value);
-      recursion(node.left);
-      recursion(node.right);
-    }
-
-    recursion(this.root);
-    return resultArr;
-  }
-
-  DFS() {
-    if (this.root === null) return [];
-    const resultArr = [];
-    const stack = [this.root];
-    while (stack.length > 0) {
-      const nodeFromQueue = stack.pop();
-      resultArr.push(nodeFromQueue.value);
-      if (nodeFromQueue.right) {
-        stack.push(nodeFromQueue.right);
-      }
-      if (nodeFromQueue.left) {
-        stack.push(nodeFromQueue.left);
-      }
-    }
-    return resultArr;
-  }
-}
-
-const newTree = new Tree(root);
-console.log(newTree.BFS());
-console.log(newTree.DFSrecursive());
-console.log(newTree.DFS());
+  return resultHead;
+};
