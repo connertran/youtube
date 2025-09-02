@@ -1,39 +1,35 @@
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
-/**
- * @param {ListNode} head
- * @return {ListNode}
- */
+function searchRange(nums, target) {
+  if (nums.length === 0) return [-1, -1];
 
-function linkedListObj(node) {
-  if (node === null) return {};
-  const result = {};
-  while (node) {
-    result[node.val] = node;
-    node = node.next;
+  let lo = 0;
+  let hi = nums.length - 1;
+  let found = -1;
+
+  // binary search for any occurrence
+  while (lo <= hi) {
+    const mid = lo + Math.floor((hi - lo) / 2);
+    if (nums[mid] === target) {
+      found = mid;
+      break;
+    } else if (nums[mid] < target) {
+      lo = mid + 1;
+    } else {
+      hi = mid - 1;
+    }
   }
-  return result;
+
+  if (found === -1) return [-1, -1];
+
+  // expand to both sides
+  let left = found;
+  let right = found;
+
+  while (left - 1 >= 0 && nums[left - 1] === target) left--;
+  while (right + 1 < nums.length && nums[right + 1] === target) right++;
+
+  return [left, right];
 }
-var sortList = function (head) {
-  if (head === null) return null;
-  const nodesObj = linkedListObj(head);
-  const arrayOfKeys = Object.keys(nodesObj);
-  const arrayOfKeysInt = arrayOfKeys.map((each) => Number(each));
-  const sortedArray = arrayOfKeysInt.sort((a, b) => a - b);
 
-  const resultHead = nodesObj[sortedArray[0]];
-  let curr = resultHead;
-  curr.next = null;
-  for (let i = 1; i < arrayOfKeys.length; i++) {
-    const nextNode = nodesObj[sortedArray[i]];
-    curr.next = nextNode;
-    curr = nextNode;
-    curr.next = null;
-  }
-  return resultHead;
-};
+// quick checks
+console.log(searchRange([5, 7, 7, 8, 8, 10], 8)); // [3, 4]
+console.log(searchRange([5, 7, 7, 8, 8, 10], 6)); // [-1, -1]
