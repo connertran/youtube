@@ -1,35 +1,38 @@
-function searchRange(nums, target) {
-  if (nums.length === 0) return [-1, -1];
-
-  let lo = 0;
-  let hi = nums.length - 1;
-  let found = -1;
-
-  // binary search for any occurrence
-  while (lo <= hi) {
-    const mid = lo + Math.floor((hi - lo) / 2);
-    if (nums[mid] === target) {
-      found = mid;
-      break;
-    } else if (nums[mid] < target) {
-      lo = mid + 1;
+const merge = (arr1, arr2) => {
+  const result = [];
+  let i = 0;
+  let j = 0;
+  while (i < arr1.length && j < arr2.length) {
+    if (arr1[i] < arr2[j]) {
+      result.push(arr1[i]);
+      i++;
     } else {
-      hi = mid - 1;
+      result.push(arr2[j]);
+      j++;
     }
   }
 
-  if (found === -1) return [-1, -1];
+  while (j < arr2.length) {
+    result.push(arr2[j]);
+    j++;
+  }
 
-  // expand to both sides
-  let left = found;
-  let right = found;
+  while (i < arr1.length) {
+    result.push(arr1[i]);
+    i++;
+  }
+  return result;
+};
 
-  while (left - 1 >= 0 && nums[left - 1] === target) left--;
-  while (right + 1 < nums.length && nums[right + 1] === target) right++;
+const mergeSort = (arr) => {
+  if (arr.length === 1 || arr.length === 0) {
+    return arr;
+  }
+  const mid = Math.floor(arr.length / 2);
+  const left = mergeSort(arr.slice(0, mid));
+  const right = mergeSort(arr.slice(mid));
+  return merge(left, right);
+};
 
-  return [left, right];
-}
-
-// quick checks
-console.log(searchRange([5, 7, 7, 8, 8, 10], 8)); // [3, 4]
-console.log(searchRange([5, 7, 7, 8, 8, 10], 6)); // [-1, -1]
+const result = mergeSort([4, 20, 12, 10, 7, 9]);
+console.log(result);
