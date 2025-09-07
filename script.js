@@ -1,38 +1,27 @@
-const merge = (arr1, arr2) => {
-  const result = [];
-  let i = 0;
-  let j = 0;
-  while (i < arr1.length && j < arr2.length) {
-    if (arr1[i] < arr2[j]) {
-      result.push(arr1[i]);
-      i++;
+/**
+ * @param {string} ransomNote
+ * @param {string} magazine
+ * @return {boolean}
+ */
+var canConstruct = function (ransomNote, magazine) {
+  const magazineObj = {};
+  for (let ch of magazine) {
+    if (magazineObj[ch] !== undefined) {
+      magazineObj[ch]++;
     } else {
-      result.push(arr2[j]);
-      j++;
+      magazineObj[ch] = 1;
     }
   }
 
-  while (j < arr2.length) {
-    result.push(arr2[j]);
-    j++;
+  for (let ch of ransomNote) {
+    if (magazineObj[ch] !== undefined && magazineObj[ch] > 0) {
+      magazineObj[ch]--;
+    } else {
+      return false;
+    }
   }
 
-  while (i < arr1.length) {
-    result.push(arr1[i]);
-    i++;
-  }
-  return result;
+  return true;
 };
 
-const mergeSort = (arr) => {
-  if (arr.length === 1 || arr.length === 0) {
-    return arr;
-  }
-  const mid = Math.floor(arr.length / 2);
-  const left = mergeSort(arr.slice(0, mid));
-  const right = mergeSort(arr.slice(mid));
-  return merge(left, right);
-};
-
-const result = mergeSort([4, 20, 12, 10, 7, 9]);
-console.log(result);
+console.log(canConstruct("aa", "aabbcs"));
