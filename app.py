@@ -1,42 +1,72 @@
-class Node:
-    def __init__(self, data):
-        self.data = data  # Store the data
-        self.next = None  # Pointer to the next node
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
 
+class Solution:
+    def mergeTwoLists(self, list1, list2):
+        if list1 == None and list2 == None:
+            return None
+        
+        if list1 == None:
+            return list2
+        
+        if list2 == None:
+            return list1
+        
+        #merge
+        head1 = list1 #the node not the value
+        head2 = list2
+        result = None
+        current = None
+        if head1.val>head2.val:
+            result = head2
+            current = result
+            head2 = head2.next
+        else:
+            result = head1
+            current = result
+            head1 = head1.next
 
-class LinkedList:
-    def __init__(self):
-        self.head = None  # Start with an empty list
+        while head1 and head2:
+            if head1.val>head2.val:
+                current.next = head2
+                current = current.next
+                head2 = head2.next
+            else:
+                current.next = head1
+                current = current.next
+                head1 = head1.next
 
-    def insert_at_beginning(self, data):
-        new_node = Node(data)  # Create a new node
-        new_node.next = self.head  # Link new node to current head
-        self.head = new_node  # Update head to new node
-
-    def delete_at_beginning(self):
-        if self.head is None:
-            print("List is already empty.")
-            return
-        self.head = self.head.next  # Move head to the next node
-
-    def print_list(self):
-        current = self.head
-        while current:
-            print(current.data, end=" -> ")
+        while head1:
+            current.next = head1
             current = current.next
-        print("None")
+            head1 = head1.next
 
 
-# Testing the deletion function
-ll = LinkedList()
-ll.insert_at_beginning(30)
-ll.insert_at_beginning(20)
-ll.insert_at_beginning(10)
+        while head2:
+            current.next = head2
+            current = current.next
+            head2 = head2.next
+            
+        return result
+    
 
-print("Before deletion:")
-ll.print_list()  # Output: 10 -> 20 -> 30 -> None
+# Linked list 1: 1 -> 2 -> 4
+l1 = ListNode(1)
+l1.next = ListNode(2)
+l1.next.next = ListNode(4)
 
-ll.delete_at_beginning()
+# Linked list 2: 1 -> 3 -> 4
+l2 = ListNode(1)
+l2.next = ListNode(3)
+l2.next.next = ListNode(4)
 
-print("After deletion:")
-ll.print_list()  # Output: 20 -> 30 -> None
+def printResult(linkedList):
+    while linkedList:
+        print(linkedList.val)
+        linkedList = linkedList.next
+
+answer = Solution().mergeTwoLists(l1,l2)
+printResult(answer)
