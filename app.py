@@ -1,72 +1,72 @@
-# Definition for singly-linked list.
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
-
 class Solution:
-    def mergeTwoLists(self, list1, list2):
-        if list1 == None and list2 == None:
-            return None
+    def fullJustify(self, words, maxWidth):
+        result = []
+        wordIndex = 0
         
-        if list1 == None:
-            return list2
-        
-        if list2 == None:
-            return list1
-        
-        #merge
-        head1 = list1 #the node not the value
-        head2 = list2
-        result = None
-        current = None
-        if head1.val>head2.val:
-            result = head2
-            current = result
-            head2 = head2.next
-        else:
-            result = head1
-            current = result
-            head1 = head1.next
-
-        while head1 and head2:
-            if head1.val>head2.val:
-                current.next = head2
-                current = current.next
-                head2 = head2.next
-            else:
-                current.next = head1
-                current = current.next
-                head1 = head1.next
-
-        while head1:
-            current.next = head1
-            current = current.next
-            head1 = head1.next
-
-
-        while head2:
-            current.next = head2
-            current = current.next
-            head2 = head2.next
+        while wordIndex < len(words):
+            string = ""
+            maxWords = self.calculatingMaxWords(words, maxWidth)
+            wordIndex += maxWords
             
+            
+            if len(words) - maxWords > 0: #meaning this is not the last line
+                spaceBetween = maxWords-1
+                wordLengthWithoutSpaces = 0
+                for index in range(maxWords):
+                    wordLengthWithoutSpaces += len(words[index])
+                spaceLeft = maxWidth - wordLengthWithoutSpaces
+
+                extra = 0
+               
+                if spaceLeft % spaceBetween != 0:
+                    extra = spaceLeft % spaceBetween
+                
+                mathFloor = spaceLeft // spaceBetween
+                
+                for wordIndex in range(maxWords):
+                    if extra < 0:
+                        string += words[wordIndex] + (" " * mathFloor) + (" " * extra)
+                        extra = 0
+                        spaceLeft = spaceLeft - extra - mathFloor
+                    else:
+                        if spaceLeft > 0:
+                            string += words[wordIndex] + (" " * mathFloor)
+                            spaceLeft = spaceLeft - mathFloor
+                            print("in if")
+                        else: #last word
+                            string += words[wordIndex]
+                            print("here in else")
+
+                    
+
+            else: #meaning this is the last line
+                # left-justified
+                for i in range(maxWords):
+                    string += word[i]+ " "
+                theRest = (maxWidth - len(string)) * " "
+                string += theRest
+
+            for word in range(maxWords):
+                words.pop(0)
+
+            result.append(string)
+            return result
+
+
+    def calculatingMaxWords(self, words, maxWidth):
+        result = 0
+        currentWidth = 0
+        for word in words:
+            currentWidth += len(word) + 1 #after each word is a space
+            if currentWidth < maxWidth or currentWidth == maxWidth or currentWidth == maxWidth+1: #the or logic because the last word doesnt need to have the extra space
+                result += 1
+            else:
+                return result
+        
         return result
     
 
-# Linked list 1: 1 -> 2 -> 4
-l1 = ListNode(1)
-l1.next = ListNode(2)
-l1.next.next = ListNode(4)
-
-# Linked list 2: 1 -> 3 -> 4
-l2 = ListNode(1)
-l2.next = ListNode(3)
-l2.next.next = ListNode(4)
-
-def printResult(linkedList):
-    while linkedList:
-        print(linkedList.val)
-        linkedList = linkedList.next
-
-answer = Solution().mergeTwoLists(l1,l2)
-printResult(answer)
+words = ["This", "is", "an", "example", "of", "text", "justification."]
+maxWidth = 16
+solution = Solution().fullJustify(words, maxWidth)
+print(solution)
