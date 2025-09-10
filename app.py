@@ -1,72 +1,33 @@
 class Solution:
-    def fullJustify(self, words, maxWidth):
-        result = []
-        wordIndex = 0
-        
-        while wordIndex < len(words):
-            string = ""
-            maxWords = self.calculatingMaxWords(words, maxWidth)
-            wordIndex += maxWords
+    def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:
+        def help (x, size):
+            if len(x) == 1:
+                return x[0] + ' ' * (maxWidth -size)
+
+            spaces = (maxWidth -size) // (len(x) -1)
+            extra = (maxWidth -size) % (len(x) -1) 
+
+            ans = ''
+            for i in range(len(x) -1):
+                ans += x[i]
+                ans += ' ' * (spaces + (1 if i < extra else 0))
+            ans += x[-1]
+
+            return ans
+
+        ans = []
+        line = [] 
+        size = 0 
+        for w in words:
+            size += len(w) 
+            line.append (w) 
+
+            if len(line) -1 + size > maxWidth:
+                ans.append (help(line[:-1], size -len(w))) 
+                line = [line[-1]]
+                size = len(w) 
             
-            
-            if len(words) - maxWords > 0: #meaning this is not the last line
-                spaceBetween = maxWords-1
-                wordLengthWithoutSpaces = 0
-                for index in range(maxWords):
-                    wordLengthWithoutSpaces += len(words[index])
-                spaceLeft = maxWidth - wordLengthWithoutSpaces
-
-                extra = 0
-               
-                if spaceLeft % spaceBetween != 0:
-                    extra = spaceLeft % spaceBetween
-                
-                mathFloor = spaceLeft // spaceBetween
-                
-                for wordIndex in range(maxWords):
-                    if extra < 0:
-                        string += words[wordIndex] + (" " * mathFloor) + (" " * extra)
-                        extra = 0
-                        spaceLeft = spaceLeft - extra - mathFloor
-                    else:
-                        if spaceLeft > 0:
-                            string += words[wordIndex] + (" " * mathFloor)
-                            spaceLeft = spaceLeft - mathFloor
-                            print("in if")
-                        else: #last word
-                            string += words[wordIndex]
-                            print("here in else")
-
-                    
-
-            else: #meaning this is the last line
-                # left-justified
-                for i in range(maxWords):
-                    string += word[i]+ " "
-                theRest = (maxWidth - len(string)) * " "
-                string += theRest
-
-            for word in range(maxWords):
-                words.pop(0)
-
-            result.append(string)
-            return result
-
-
-    def calculatingMaxWords(self, words, maxWidth):
-        result = 0
-        currentWidth = 0
-        for word in words:
-            currentWidth += len(word) + 1 #after each word is a space
-            if currentWidth < maxWidth or currentWidth == maxWidth or currentWidth == maxWidth+1: #the or logic because the last word doesnt need to have the extra space
-                result += 1
-            else:
-                return result
-        
-        return result
-    
-
-words = ["This", "is", "an", "example", "of", "text", "justification."]
-maxWidth = 16
-solution = Solution().fullJustify(words, maxWidth)
-print(solution)
+        last = ' '.join (line)
+        last += ' ' * (maxWidth -len(last)) 
+        ans.append (last) 
+        return ans
